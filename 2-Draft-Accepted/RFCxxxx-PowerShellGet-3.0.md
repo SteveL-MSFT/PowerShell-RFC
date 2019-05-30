@@ -30,7 +30,6 @@ This RFC proposes some significant changes to address this.
 ## User Experience
 
 ```powershell
-PS> Update-PSResourceCache
 PS> Get-Satisfaction
 Get-Satisfaction : The term 'Get-Satisfaction' is not recognized as the name of a cmdlet, function, script file, or operable program.
 Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
@@ -53,7 +52,8 @@ PowerShellGet is currently written as PowerShell script with a dependency on Pac
 Proposal is to write PSResource in C# to reduce complexity and make easier to maintain.
 In addition, remove dependency on PackageManagement completely as well as dependency on
 nuget.exe.
-This module will only use REST APIs to get nupkgs and publishing nupkgs.
+This module will only use REST APIs to get and publish nupkgs.
+This module would be shipped in PowerShell 7.
 
 ### Side-by-side with PowerShellGet
 
@@ -63,7 +63,11 @@ with the existing PowerShellGet module.
 Since the current PowerShellGet 2.x version is a script module and this new one
 is a C# based module, they can coexist side-by-side.
 
-### Cmdlets
+### Cmdlet compatibility
+
+Function wrappers will be provided to provide compatibility with the two most often
+used cmdlets: `Install-Module` and `Find-Module`.
+These cmdlets will output a warning to use the new cmdlets.
 
 ### Local cache
 
@@ -78,6 +82,24 @@ This will be a local json file containing only the latest version of each module
 The cache will be stored in the user path.
 There is no system cache that is shared.
 
+Example cache entry:
+
+```json
+{
+  "name": "This is my module",
+  "version": "1.0.0.0",
+  "type": "module",
+  "tags": [
+    "Linux",
+    "PSEdition_Core",
+    "PSEdition_Desktop",
+    "AzureAutomation"
+  ]
+}
+```
+
+An example cache with 5000 resources is ~700KB in compressed json form.
+
 ### Updating the cache
 
 A `Update-PSResourceCache` cmdlet will download the json file from the registered
@@ -85,6 +107,11 @@ repositories.
 A hash check is performed to determine if the current cache needs to be updated.
 After the update is complete, it will compare installed versions with the cache
 and list out modules that are updatable.
+Repositories will have a property to allow for automatic update the cache.
+By default, this is set to `true`.
+On any operation that reaches out to a repository, a REST API will be called to
+see if the hash of the cache matches the current cache and if not, a new one
+is downloaded.
 
 ### Repository management
 
@@ -92,6 +119,7 @@ and list out modules that are updatable.
 A `-Default` switch enables registering PSGallery should it be accidentally removed.
 The `-URL` will accept the HTTP address without the need to specify `/api/v2` as
 that will be assumed and discovered at runtime.
+Support for local filesystem repositories must be maintained.
 A `-InstallationPolicy` switch accepts `Trusted` or `Untrusted` (default) indicating
 whether to prompt the user when installing resources from that repository.
 
@@ -136,10 +164,15 @@ trusted repository with the highest version matching the `-Version` parameter
 is used).
 If there are no trusted repositories matching the query, then the newest version
 fulfilling the query will be prompted to be installed.
+If there are multiple repositories with the same trust level containing the same
+version, the first one is used.
+
 `-AllowUntrusted` can be used to suppress being prompted for untrusted sources.
 `-AllowDifferentPublisher` can be used to suppress being prompted if the publisher
 of the module is different from the currently installed version.
-`-AllowClobber` can be used to re-install a module.
+`-AllowReinstall` can be used to re-install a module.
+
+A `-Quiet` switch will suppress progress information.
 
 ### Dependencies and version management
 
@@ -176,7 +209,7 @@ of mandatory `-Path` or `-LiteralPath` parameters.
 
 `Update-PSResource` will update all resources to most recent minor version by
 default.
-A `-AllowMajorVersionChange` switch will allow updating to newer major versions.
+A `-OnlyMinorUpdates` switch will allow only updating to newer minor version.
 If the installed resource is a pre-release, it will automatically update to
 latest prerelease or stable version (if available).
 
@@ -191,11 +224,12 @@ Publishing by name and version is no longer supported.
 `Get-PSResource` will list all installed resources with new `Type` column.
 
 ```output
-Version  Name      Type    Repository  Description
--------  ----      ----    ----------  -----------
-5.0.0    VSTeam    Module  PSGallery   Adds functionality for working with Visual …
-0.14.94  PSGitHub  Module  PSGallery   This PowerShell module enables integration …
-0.7.3    posh-git  Module  PSGallery   Provides prompt with Git status summary …
+Version  Name       Type    Repository  Description
+-------  ----       ----    ----------  -----------
+5.0.0    VSTeam     Module  PSGallery   Adds functionality for working with Visual …
+0.14.94  PSGitHub   Module  PSGallery   This PowerShell module enables integration …
+0.7.3    posh-git   Module  PSGallery   Provides prompt with Git status summary …
+1.0.1    PSAutoMute Script  PSGallery   Powershell script to Auto Mute you sound devices …
 ```
 
 ## Alternate Proposals and Considerations
