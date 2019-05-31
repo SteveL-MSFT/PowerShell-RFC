@@ -17,6 +17,10 @@ However, it has some architectural and design limitations that prevent it from
 moving forward more quickly.
 This RFC proposes some significant changes to address this.
 
+> [!NOTE]
+> There are no intentions to break existing PSGet v2 users so existing
+> users can stay on PSGet v2 and that will continue to work.
+
 ## Motivation
 
     As a PowerShell user,
@@ -100,18 +104,13 @@ Example cache entry:
 
 An example cache with 5000 resources is ~700KB in compressed json form.
 
-### Updating the cache
+### Automatic updating of the cache
 
-A `Update-PSResourceCache` cmdlet will download the json file from the registered
-repositories.
-A hash check is performed to determine if the current cache needs to be updated.
-After the update is complete, it will compare installed versions with the cache
-and list out modules that are updatable.
-Repositories will have a property to allow for automatic update the cache.
-By default, this is set to `true`.
 On any operation that reaches out to a repository, a REST API will be called to
 see if the hash of the cache matches the current cache and if not, a new one
 is downloaded.
+If the repository doesn't support this new API, it falls back to current behavior
+in PSGet v2.
 
 ### Repository management
 
@@ -180,7 +179,7 @@ A `-Quiet` switch will suppress progress information.
 or a hashtable (using `-RequiredModules`) where the key is the module name and the
 value is either the required version specified using Nuget version range syntax or
 a hash table where `repository` is set to the URL of the repository and
-`version` contains the Nuget version range syntax.
+`version` contains the [Nuget version range syntax](https://docs.microsoft.com/en-us/nuget/reference/package-versioning#version-ranges-and-wildcards).
 
 ```powershell
 Install-PSResource -RequiredModules @{
@@ -195,7 +194,7 @@ Install-PSResource -RequiredModules @{
 ### Saving resources
 
 With the removal of PackageManagement, there is still a need to support saving
-arbitrary nupkgs used for scripts.
+arbitrary nupkgs (assemblies) used for scripts.
 
 `Save-PSResource -Type Library` will download nupkgs that have a `lib` folder.
 A `-AllowPrerelease` switch allows saving prerelease versions.
@@ -234,4 +233,10 @@ Version  Name       Type    Repository  Description
 
 ## Alternate Proposals and Considerations
 
-None
+This RFC does not cover the module authoring experience on publishing a cross-platform
+module with multiple dependencies and supporting multiple runtimes.
+
+If there is a desire to explicitly update the local cache (like `apt`), we can introduce a
+`Update-PSResourceCache` cmdlet with property on a PSRepository indicating whether
+it auto-updates or not.
+This would not be a breaking change.
