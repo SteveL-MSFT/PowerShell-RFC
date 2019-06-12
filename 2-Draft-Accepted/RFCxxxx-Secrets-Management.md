@@ -24,9 +24,19 @@ This RFC proposes new cmdlets to make this simpler and secure.
 > I can securely use multiple secrets,
 > so that I can automate complex orchestration across multiple remote resources.
 
+## High Level Design
+
+Secrets are stored securely in a local vault.
+The local vault is expected to only allow access to the user who owns that
+vault.
+Remote secrets are stored in the local vault and used by the secrets management
+cmdlets to retrieve remote secrets.
+
+`User Context` --> `Local Vault` --> `SecretsVaultExtension` --> `Remote Vault`
+
 ## User Experience
 
-Registering secrets for later use:
+Registering and using remote secrets:
 
 ```powershell
 # Install the Az.KeyVault module to be used in this example.
@@ -35,14 +45,19 @@ Registering secrets for later use:
 Install-Module Az.KeyVault
 
 # In this example, we explicitly register this extension
-Register-SecretsVaultExtension -Name Azure -Cmdlet Get-AzKeyVaultSecret -Module Az.KeyVault -Version 1.0.0
+Register-SecretsVaultExtension -Name Azure -Cmdlet Get-AzKeyVaultSecret `
+  -Module Az.KeyVault -Version 1.0.0
 
 # When using remote vaults, expectation is that secrets are
 # stored using their tooling, so this module is only for retrieving secrets
 # from remote vaults
-$azDevOpsToken = Get-Secret -Vault Azure -Name AzDevOps
-Invoke-RestMethod https://dev.azure.com/... -Credential $azDevOpsToken -Authentication Basic
+$azDevOpsToken = Get-Secret -Name AzDevOps
+Invoke-RestMethod https://dev.azure.com/… -Credential $azDevOpsToken -Authentication Basic
+```
 
+Registering and using local secret:
+
+```powershell
 # For local vault, we can register custom secrets
 # In this example, we store a PSCredential object
 Register-Secret -Secret $cred -Name MyCreds
@@ -84,11 +99,30 @@ This can be done as part of importing the module or explicitly by the user.
 `Register-SecretsVaultExtension` has a `-Default` switch to register the
 default local vault (if applicable, see above) if it has been unregistered.
 
+`Register-SecretsVaultExtension` takes a `-AccessToken` or `-Credential` parameter
+for authenticating with the remote vault.
+If neither are supplied, then the current user context is used and relies on
+the extension cmdlet to handle authentication.
+
 `Unregister-SecretsVaultExtension` should be used to remove any existing
 registration or when updating a registration to a new version.
 
 `Get-SecretsVaultExtension` will enumerate registered extensions returning
 the module name, module version, and cmdlet used.
+
+### Storing Secrets
+
+The `Register-Secret` cmdlet is used to store a secret.
+The `-Name` must be unique across all secrets regardless if local or remote.
+A `-Secret` parameter accepts an object that can be either a PSCredential
+or SecureString.
+
+### Retrieving Secrets
+
+The `Get-Secret` cmdlet is used to retrieve secrets.
+The `-Name` parameter is mandatory and retreives the secret associated with
+that name.
+The returned object will either be a PSCredential or SecureString.
 
 ### Authorization
 
@@ -102,11 +136,11 @@ vault.
 Secrets supported will be:
 
 - PSCredential
-- AccessToken as string
+- SecureString
 
 ## Alternate Proposals and Considerations
 
-In this release, the following are non-goals:
+In this release, the following are non-goals that can be addressed in the future:
 
 - Provision to rotate certs/access tokens
 - Sharing local vaults across different computer systems
