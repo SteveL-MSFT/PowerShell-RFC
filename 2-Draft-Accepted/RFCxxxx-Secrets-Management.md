@@ -29,7 +29,7 @@ This RFC proposes new cmdlets to make this simpler and secure.
 Secrets are stored securely in a local vault.
 The local vault is expected to only allow access to the user who owns that
 vault.
-Remote secrets are stored in the local vault and used by the secrets management
+Secrets required to access remote vaults are stored in the local vault and used by the secrets management
 cmdlets to retrieve remote secrets.
 
 `User Context` --> `Local Vault` --> `SecretsVaultExtension` --> `Remote Vault`
