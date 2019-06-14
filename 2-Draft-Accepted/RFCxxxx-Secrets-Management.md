@@ -145,4 +145,6 @@ In this release, the following are non-goals that can be addressed in the future
 - Provision to rotate certs/access tokens
 - Sharing local vaults across different computer systems
 - Sharing local vault across different user contexts
-- Support for other types of secrets
+- Support for other types of secrets (certs)
+- A PSProvider for a Secrets: PSDrive
+- C# interface for extensions
