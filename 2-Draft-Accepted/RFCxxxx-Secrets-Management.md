@@ -120,7 +120,7 @@ or SecureString.
 ### Retrieving Secrets
 
 The `Get-Secret` cmdlet is used to retrieve secrets.
-The `-Name` parameter is mandatory and retreives the secret associated with
+The `-Name` parameter is mandatory and retrieves the secret associated with
 that name.
 The returned object will either be a PSCredential or SecureString.
 
