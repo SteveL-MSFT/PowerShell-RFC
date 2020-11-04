@@ -14,6 +14,10 @@ Plan to implement: Yes
 [Desired State Configuration](https://docs.microsoft.com/powershell/scripting/dsc/overview/overview) (DSC) is a platform in PowerShell
 enabling configuration as code.
 
+DSC contains many components including the `configuration` keyword that is part of the PowerShell engine and compilation to
+a configuratoin MOF file, DSC resources in Windows and on PowerShellGallery.com, the Local Configuration Manager in Windows,
+Pull Server support, and PSDesiredStateConfiguration module.
+
 Currently, DSC (for Windows PowerShell) is tightly coupled with WMI on Windows and OMI on Linux.
 WMI is used to host the Local Configuration Manager (LCM) and WMI APIs are used to parse MOF which is used for both
 configuration files as well as schema files.
@@ -23,13 +27,15 @@ they need to be in C++ or Python.
 Finally, third party solutions trying to leverage DSC resources need to still go through the LCM making it complicated to integrate with
 their agents or ecosystems.
 
-Unlike DSC for Windows PowerShell, DSC for PowerShell 7 is only a platform for building or integrating with configuration solutions.
+Unlike DSC for Windows PowerShell, DSC for PowerShell 7 is only intended to provide a platform for building or integrating with configuration solutions.
+This means for PowerShell 7, the scope of DSC support is limited to `configuration` keyword and compliation, authoring and using
+DSC resources via the PSDesiredStateConfiguration module.
 
 ## Motivation
 
     As a developer of configuration solutions,
     I can easily leverage DSC resources,
-    so that my solution can manage Windows.
+    so that my solution can leverage the PowerShell ecosystem and its users and contributors.
 
     As an ITPro,
     I can directly invoke DSC resources,
@@ -70,7 +76,7 @@ DSC for PowerShell 7 will be cross platform having consistent capabilities and u
 ### Moving away from WMI/OMI/MOF
 
 DSC on Windows was originally designed relying on [WMI](https://docs.microsoft.com/windows/win32/wmisdk/wmi-start-page) as a host on Windows,
-OMI as a host on Linux, and [MOF](https://docs.microsoft.com/windows/win32/wmisdk/managed-object-format--mof-) for configuratio and schema.
+OMI as a host on Linux, and [MOF](https://docs.microsoft.com/windows/win32/wmisdk/managed-object-format--mof-) for configuration and schema.
 
 MOF as a format is not something most developers are familiar with and not much tooling support.
 However, developers of DSC resources written in PowerShell script still needed to learn MOF and also keep their MOF schema
@@ -84,14 +90,17 @@ Instead, we will move towards a JSON configuration file format.
 
 Since there is no default agent to understand the JSON configuration file, it will be up to users or 3rd party agents to understand the configuration file.
 
-<TODO> example JSON configuratoin </TODO>
+Moving from WMI/OMI also means no longer supporting C++ resources nor Python based resources.
+
+<TODO> example JSON configuration </TODO>
 
 ### No more MOF schema and script resources
 
 Although DSC resources can be written as WMI/OMI providers, this requires writing C/C++ code and compiling for specific Linux distros and processor architectures.
 Writing PowerShell script DSC resources currently still requires a matching schema file making it more complex.
 Instead, the current plan is to [only support PowerShell class based DSC resources](https://github.com/PowerShell/PowerShell/issues/13731) in DSC for PowerShell 7.
-The reasoning and discussion is in the issue linked above.
+Whereas previously embedded objects were CIMInstance types, they would now be .NET types based on PowerShell classes.
+Additonal reasoning and discussion is in the issue linked above.
 
 ### Open Source
 
@@ -111,7 +120,7 @@ Existing script based resources (not class based) require a MOF schema file for 
 We had prototyped using a JSON based schema instead of the existing MOF schema file, but it still required the DSC resource author to
 create a schema file and ensure it aligns with the script implementation.
 
-It is simpler to create a PoewrShell class based resource which itself is the schema removing the need to understand and maintain a
+It is simpler to create a PowerShell class based resource which itself is the schema removing the need to understand and maintain a
 separate schema file.
 In addition, having a single model (class based) for authoring DSC resources will help the community in the long term by having a single
-consistent way to write DSC resources making it easier for new authors to find documentation and examples.
+consistent way to write DSC resources making it easier for new authors to find [documentation and examples](https://dsccommunity.org/blog/class-based-dsc-resources/).
