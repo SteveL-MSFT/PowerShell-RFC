@@ -46,7 +46,7 @@ Very few community authored DSC resources exist for Linux because C++ is the onl
 supported language. Other than using the Script/nxScript resources combined with
 a composite resource, it is near-impossible today to create a DSC solution that is cross-platform.
 
-Third party solutions trying to leverage DSC resources need to call LCM
+Today, third party solutions trying to leverage DSC resources need to call the LCM
 to run Get/Set/Test, making it complicated to integrate with partner ecosystems.
 
 ## Scope of DSC implementation for PowerShell 7
