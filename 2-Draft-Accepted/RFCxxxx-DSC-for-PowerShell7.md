@@ -92,7 +92,131 @@ Since there is no default agent to understand the JSON configuration file, it wi
 
 Moving from WMI/OMI also means no longer supporting C++ resources nor Python based resources.
 
-<TODO> example JSON configuration </TODO>
+Example configuration file:
+
+```powershell
+Configuration FileResourceDemo
+{
+    Node "localhost"
+    {
+        File DirectoryCopy
+        {
+            Ensure = "Present" # Ensure the directory is Present on the target node.
+            Type = "Directory" # The default is File.
+            Recurse = $true # Recursively copy all subdirectories.
+            SourcePath = "\\PullServer\DemoSource"
+            DestinationPath = "C:\Users\Public\Documents\DSCDemo\DemoDestination"
+        }
+
+        Log AfterDirectoryCopy
+        {
+            # The message below gets written to the Microsoft-Windows-Desired State Configuration/Analytic log
+            Message = "Finished running the file resource with ID DirectoryCopy"
+            DependsOn = "[File]DirectoryCopy" # Depends on successful execution of the File resource.
+        }
+    }
+}
+```
+
+Generated MOF:
+
+```mof
+/*
+@TargetNode='localhost'
+@GeneratedBy=slee
+@GenerationDate=11/05/2020 11:09:47
+@GenerationHost=SLEE-DESKTOP
+*/
+
+instance of MSFT_FileDirectoryConfiguration as $MSFT_FileDirectoryConfiguration1ref
+{
+  SourceInfo = "C:\\Users\\slee\\test\\file.dsc.ps1::6::9::File";
+  DestinationPath = "C:\\Users\\Public\\Documents\\DSCDemo\\DemoDestination";
+  SourcePath = "\\\\PullServer\\DemoSource";
+  Recurse = True;
+  Ensure = "Present";
+  Type = "Directory";
+  ModuleName = "PSDesiredStateConfiguration";
+  ResourceID = "[File]DirectoryCopy";
+  ModuleVersion = "1.0";
+  ConfigurationName = "FileResourceDemo";
+};
+
+instance of MSFT_LogResource as $MSFT_LogResource1ref
+{
+  SourceInfo = "C:\\Users\\slee\\test\\file.dsc.ps1::15::9::Log";
+  ModuleName = "PsDesiredStateConfiguration";
+  Message = "Finished running the file resource with ID DirectoryCopy";
+  ResourceID = "[Log]AfterDirectoryCopy";
+  ModuleVersion = "1.0";
+  DependsOn = {
+    "[File]DirectoryCopy"
+  };
+  ConfigurationName = "FileResourceDemo";
+};
+
+instance of OMI_ConfigurationDocument
+{
+  Version="2.0.0";
+  MinimumCompatibleVersion = "1.0.0";
+  CompatibleVersionAdditionalProperties= {"Omi_BaseResource:ConfigurationName"};
+  Author="slee";
+  GenerationDate="11/05/2020 11:09:47";
+  GenerationHost="SLEE-DESKTOP";
+  Name="FileResourceDemo";
+};
+```
+
+Example JSON representation of generated configuration:
+
+```json
+{
+  "ConfigurationDocument": {
+    "GenerationDate": "11/05/2020 11:09:47",
+    "MinimumCompatibleVersion": "1.0.0",
+    "CompatibleVersionAdditionalProperties": [
+      "BaseResource:ConfigurationName"
+    ],
+    "Name": "FileResourceDemo",
+    "Version": "2.0.0",
+    "Author": "slee",
+    "GenerationHost": "SLEE-DESKTOP"
+  },
+  "LogResource": [
+    {
+      "SourceInfo": "C:\\\\Users\\\\slee\\\\test\\\\file.dsc.ps1::15::9::Log",
+      "ModuleVersion": "1.0",
+      "Message": "Finished running the file resource with ID DirectoryCopy",
+      "ResourceID": "[Log]AfterDirectoryCopy",
+      "ModuleName": "PsDesiredStateConfiguration",
+      "ConfigurationName": "FileResourceDemo",
+      "DependsOn": [
+        "[File]DirectoryCopy"
+      ]
+    }
+  ],
+  "FileDirectoryConfiguration": [
+    {
+      "ResourceID": "[File]DirectoryCopy",
+      "Ensure": "Present",
+      "Recurse": true,
+      "ModuleVersion": "1.0",
+      "DestinationPath": "C:\\\\Users\\\\Public\\\\Documents\\\\DSCDemo\\\\DemoDestination",
+      "ConfigurationName": "FileResourceDemo",
+      "SourceInfo": "C:\\\\Users\\\\slee\\\\test\\\\file.dsc.ps1::6::9::File",
+      "ModuleName": "PSDesiredStateConfiguration",
+      "Type": "Directory",
+      "SourcePath": "\\\\\\\\PullServer\\\\DemoSource"
+    }
+  ]
+}
+```
+
+Important differences:
+
+- CIM class name prefixes are removed as they are not needed
+- Instances are represented as an array of the type name
+- The comment at the start is dropped as that information is available within `ConfigurationDocument`
 
 ### No more MOF schema and script resources
 
