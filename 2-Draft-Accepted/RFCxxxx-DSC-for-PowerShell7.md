@@ -310,3 +310,9 @@ having a single model (class based) for authoring DSC resources will help the co
 in the long term by having a single consistent way to write DSC resources, making
 it easier for new authors to find
 [documentation and examples](https://dsccommunity.org/blog/class-based-dsc-resources/).
+
+### Tooling for parsing JSON configuration
+
+To help developers of agents, we can provide APIs to parse the configuration
+JSON file into a dependency graph as this would be required by every agent to
+properly apply a configuration.
