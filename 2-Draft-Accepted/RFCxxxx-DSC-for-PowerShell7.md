@@ -44,7 +44,7 @@ which is used for both configuration files and schema files.
 
 Very few community authored DSC resources exist for Linux because C++ is the only
 supported language. Other than using the Script/nxScript resources combined with
-a composite resource, it is near-impossible to create a DSC solution that is cross-platform.
+a composite resource, it is near-impossible today to create a DSC solution that is cross-platform.
 
 Third party solutions trying to leverage DSC resources need to call LCM
 to run Get/Set/Test, making it complicated to integrate with partner ecosystems.
