@@ -23,7 +23,8 @@ DSC contains many components including:
  - DSC resources (those that ship in Windows and those on PowerShellGallery.com)
  - Local Configuration Manager (LCM) in Windows and maintained as open-source for Linux,
    a service that maintains and/or reports on configuration drift
- - Pull Server support
+ - the DSC Pull Server, which is used by LCM's configured in pull mode to acquire new
+   resources and configurations
  - the `PSDesiredStateConfiguration` module that includes cmdlets like `Get-DscResource`
 
 DSC ships as a component of Windows and as an open source project for Linux.
