@@ -21,7 +21,8 @@ DSC contains many components including:
  - The `configuration` keyword that is part of the PowerShell engine
  - Compilation to a configuration MOF file
  - DSC resources (those that ship in Windows and those on PowerShellGallery.com)
- - Local Configuration Manager in Windows and maintained as open-source for Linux
+ - Local Configuration Manager (LCM) in Windows and maintained as open-source for Linux,
+   a service that maintains and/or reports on configuration drift
  - Pull Server support
  - PSDesiredStateConfiguration module.
 
