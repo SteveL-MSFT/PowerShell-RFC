@@ -53,7 +53,7 @@ to run Get/Set/Test, making it complicated to integrate with partner ecosystems.
 
 Unlike DSC for Windows PowerShell, DSC for PowerShell 7 is only intended to provide
 a platform for building or integrating with configuration solutions. For PowerShell 7,
-the scope of DSC support is limited to `configuration` keyword, authoring,
+the scope of DSC support is limited to the `configuration` keyword, authoring,
 compilation, and using DSC resources via the PSDesiredStateConfiguration module.
 
 ### Motivation
