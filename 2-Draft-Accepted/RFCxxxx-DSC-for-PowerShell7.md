@@ -29,7 +29,7 @@ DSC contains many components including:
 
 DSC ships as a component of Windows and as an open source project for Linux.
 It is also integrated into cloud-based server management services in multiple
-public clouds including Microsoft Azure and Amazon AWS.
+public clouds including Microsoft Azure and Amazon Web Services (AWS).
 
 The versions of DSC that shipped in Windows PowerShell are tightly coupled with
 [Windows Management Instrumentation (WMI)](https://docs.microsoft.com/windows/win32/wmisdk/wmi-start-page)
