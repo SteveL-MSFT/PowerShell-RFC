@@ -28,7 +28,7 @@ DSC contains many components including:
  - the `PSDesiredStateConfiguration` module that includes cmdlets like `Get-DscResource`
 
 DSC ships as a component of Windows and as an open source project for Linux.
-It is also integrated in to cloud-based server management services in multiple
+It is also integrated into cloud-based server management services in multiple
 public clouds including Microsoft Azure and Amazon AWS.
 
 The versions of DSC that shipped in Windows PowerShell are tightly coupled with
