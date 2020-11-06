@@ -277,7 +277,7 @@ in DSC for PowerShell 7. Whereas previously embedded objects were CIMInstance ty
 they will now be .NET types based on PowerShell classes. Additional reasoning
 and discussion is in the issue linked above.
 
-Making the change from script based resources to class based resources could make
+Making the change from script-based resources to class-based resources could make
 learning DSC a frustrating experience for new users. To resolve this, tooling will
 be needed that scaffolds as much as possible of the class requirements based
 on a .psm1 module file containing traditionally authored Get/Set/Test-TargetResource
