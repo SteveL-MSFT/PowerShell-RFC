@@ -18,14 +18,14 @@ Plan to implement: Yes
 
 DSC contains many components including:
 
- - The `configuration` keyword that is part of the PowerShell engine
- - Compilation to a configuration MOF file
- - DSC resources (those that ship in Windows and those on PowerShellGallery.com)
- - Local Configuration Manager (LCM) in Windows and maintained as open-source for Linux,
-   a service that maintains and/or reports on configuration drift
- - the DSC Pull Server, which is used by LCM's configured in pull mode to acquire new
-   resources and configurations
- - the `PSDesiredStateConfiguration` module that includes cmdlets like `Get-DscResource`
+- The `configuration` keyword that is part of the PowerShell engine
+- Compilation to a configuration MOF file
+- DSC resources (those that ship in Windows and those on PowerShellGallery.com)
+- Local Configuration Manager (LCM) in Windows and maintained as open-source for Linux,
+  a service that maintains and/or reports on configuration drift
+- the DSC Pull Server, which is used by LCM's configured in pull mode to acquire new
+  resources and configurations
+- the `PSDesiredStateConfiguration` module that includes cmdlets like `Get-DscResource`
 
 DSC ships as a component of Windows and as an open source project for Linux.
 It is also integrated into cloud-based server management services in multiple
@@ -55,6 +55,8 @@ Unlike DSC for Windows PowerShell, DSC for PowerShell 7 is only intended to prov
 a platform for building or integrating with configuration solutions. For PowerShell 7,
 the scope of DSC support is limited to the `configuration` keyword, authoring,
 compilation, and using DSC resources via the PSDesiredStateConfiguration module.
+
+This means that a default agent (LCM) is not included and existing pull servers is not supported.
 
 ### Motivation
 
@@ -290,6 +292,7 @@ The current
 [PSDesiredStateConfiguration](https://docs.microsoft.com/powershell/module/psdesiredstateconfiguration/?view=powershell-7)
 module is not Open Source. The intent is to clean up the code and prepare the GitHub
 repository to be made public as an Open Source project.
+However, DSC for PowerShell 7 does not depend on PSDesiredStateConfiguration being Open Source.
 
 ### PowerShell engine changes
 
