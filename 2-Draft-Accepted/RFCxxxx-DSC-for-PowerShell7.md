@@ -274,7 +274,7 @@ Writing PowerShell script DSC resources currently still requires a matching sche
 file making it more complex. Instead, the current plan is to
 [only support PowerShell class-based DSC resources](https://github.com/PowerShell/PowerShell/issues/13731)
 in DSC for PowerShell 7. Whereas previously embedded objects were CIMInstance types,
-they would now be .NET types based on PowerShell classes. Additional reasoning
+they will now be .NET types based on PowerShell classes. Additional reasoning
 and discussion is in the issue linked above.
 
 Making the change from script based resources to class based resources could make
