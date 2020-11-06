@@ -77,8 +77,8 @@ was dependent on a Microsoft-maintained implementation of
 and did not encourage authoring Linux DSC resources in PowerShell,
 making development inconsistent and difficult for non-expert users.
 
-DSC for PowerShell 7 will prioritize being cross platform, having consistent
-capabilities and user experience on all supported platforms.
+DSC for PowerShell 7 will prioritize being cross platform and having a consistent
+user experience and capabilities on all supported platforms.
 
 ### Invoke-DscResource
 
