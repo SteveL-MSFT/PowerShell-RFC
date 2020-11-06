@@ -301,7 +301,7 @@ as a plugin and made to be part of the PSDesiredStateConfiguration module.
 
 ### Supporting existing script based resources
 
-Existing script based resources (not class based) require a MOF schema file for
+Existing script-based resources (not class-based) require a MOF schema file for
 PowerShell to understand the types and nested types. We had prototyped using a JSON
 based schema instead of the existing MOF schema file but it still required the DSC
 resource author to create a schema file and ensure it aligns with the script implementation.
