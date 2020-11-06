@@ -58,7 +58,7 @@ compilation, and using DSC resources via the PSDesiredStateConfiguration module.
 
 ### Motivation
 
-DCS in PowerShell 7 should enable the following user scenarios.
+DSC in PowerShell 7 should enable the following user scenarios:
 
     As a developer of configuration management solutions,
     I can easily integrate DSC resources
