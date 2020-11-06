@@ -279,7 +279,7 @@ and discussion is in the issue linked above.
 
 Making the change from script-based resources to class-based resources could make
 learning DSC a frustrating experience for new users. To resolve this, tooling will
-be needed that scaffolds as much as possible of the class requirements based
+be needed that scaffolds as much of the class requirements as possible based
 on a .psm1 module file containing traditionally authored Get/Set/Test-TargetResource
 functions. This would also aid in migrating the more than 1000 existing resources
 for Windows.
