@@ -132,7 +132,7 @@ still needed to learn MOF and also keep their MOF schema in sync with their scri
 implementation.
 
 Today, when you execute a
-[DSC configuration script](https://docs.microsoft.com/powershell/scripting/dsc/configurations/configurations?view=powershell-7),
+[DSC configuration script](https://docs.microsoft.com/powershell/scripting/dsc/configurations/configurations),
 the output is a MOF configuration file. In general, users do not need to read this
 MOF file as it's intended to be used by machines. However, MOF parsing creates a
 dependency on WMI/OMI. Instead, we will move towards a JSON configuration file format.
