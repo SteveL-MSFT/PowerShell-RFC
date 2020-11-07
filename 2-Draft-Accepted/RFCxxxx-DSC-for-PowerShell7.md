@@ -289,7 +289,7 @@ for Windows.
 ### Open Source
 
 The current
-[PSDesiredStateConfiguration](https://docs.microsoft.com/powershell/module/psdesiredstateconfiguration/?view=powershell-7)
+[PSDesiredStateConfiguration](https://docs.microsoft.com/powershell/module/psdesiredstateconfiguration/)
 module is not Open Source. The intent is to clean up the code and prepare the GitHub
 repository to be made public as an Open Source project.
 However, DSC for PowerShell 7 does not depend on PSDesiredStateConfiguration being Open Source.
