@@ -56,7 +56,7 @@ a platform for building or integrating with configuration solutions. For PowerSh
 the scope of DSC support is limited to the `configuration` keyword, authoring,
 compilation, and using DSC resources via the PSDesiredStateConfiguration module.
 
-This means that a default agent (LCM) is not included and existing pull servers is not supported.
+This means that a default agent (LCM) is not included and existing pull servers are not supported.
 
 ### Motivation
 
