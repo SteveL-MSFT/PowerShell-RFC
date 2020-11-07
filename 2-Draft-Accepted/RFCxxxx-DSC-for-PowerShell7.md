@@ -73,7 +73,7 @@ DSC in PowerShell 7 should enable the following user scenarios:
 ### Cross platform first
 
 DSC has supported both Windows and Linux, however, the
-[Linux support](https://docs.microsoft.com/powershell/scripting/dsc/getting-started/lnxGettingStarted?view=powershell-7)
+[Linux support](https://docs.microsoft.com/powershell/scripting/dsc/getting-started/lnxGettingStarted)
 was dependent on a Microsoft-maintained implementation of
 [OMI](https://github.com/Microsoft/omi)
 and did not encourage authoring Linux DSC resources in PowerShell,
