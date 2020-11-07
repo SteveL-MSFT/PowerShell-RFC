@@ -95,7 +95,7 @@ to enable cross platform DSC resources to be authored in PowerShell script (with
 some limitations).
 
 The changes to DSC shipped as an
-[experimental feature](https://docs.microsoft.com/powershell/scripting/learn/experimental-features?view=powershell-7)
+[experimental feature](https://docs.microsoft.com/powershell/scripting/learn/experimental-features)
 in PowerShell 7.0.
 
 ### Bring your own agent (BYOA)
