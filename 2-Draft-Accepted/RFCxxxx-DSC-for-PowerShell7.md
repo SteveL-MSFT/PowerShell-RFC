@@ -31,7 +31,7 @@ DSC ships as a component of Windows 10 and as an open source project for Linux.
 It is also integrated into cloud-based server management services in multiple
 public clouds including Microsoft Azure and Amazon Web Services (AWS).
 
-The versions of DSC that shipped in Windows PowerShell are tightly coupled with
+The versions of DSC that ship in Windows PowerShell are tightly coupled with
 [Windows Management Instrumentation (WMI)](https://docs.microsoft.com/windows/win32/wmisdk/wmi-start-page)
 on Windows and
 [Open Management Interface](https://www.dmtf.org/content/open-management-interface-omi-%E2%80%93-open-source-implementation-dmtf-cimwbem-standards)
