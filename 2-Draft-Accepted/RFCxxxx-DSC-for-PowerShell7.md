@@ -87,7 +87,7 @@ user experience and capabilities on all supported platforms.
 About a year ago, we worked with
 [Gael Colas](https://twitter.com/gaelcolas)
 to author an RFC describing fundamental changes to
-[`Invoke-DscResource`](https://docs.microsoft.com/powershell/module/psdesiredstateconfiguration/invoke-dscresource?view=powershell-7)
+[`Invoke-DscResource`](https://docs.microsoft.com/powershell/module/psdesiredstateconfiguration/invoke-dscresource)
 in PowerShell 7.0.
 This enabled executing the Get, Set, and Test methods on DSC resources bypassing
 the LCM on Windows and removing the need for OMI on Linux. This was the start
